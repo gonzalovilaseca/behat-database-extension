@@ -1,0 +1,25 @@
+{
+  "name": "gvf/behat-database-extension",
+  "description": "A Behat extension for testing Symfony Restful APIs",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": "^7.2",
+    "behat/behat": "^3.5",
+    "behat/symfony2-extension": "^2.1",
+    "doctrine/doctrine-fixtures-bundle": "^3.2",
+    "phpunit/phpunit": "^8.4"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Gvf\\DatabaseExtension\\": "src"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0"
+    }
+  }
+}
