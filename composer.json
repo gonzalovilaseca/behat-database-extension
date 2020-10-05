@@ -6,7 +6,7 @@
   "require": {
     "php": "^7.2",
     "behat/behat": "^3.5",
-    "behat/symfony2-extension": "^2.1",
+    "friends-of-behat/symfony-extension": "^2.1",
     "doctrine/doctrine-fixtures-bundle": "^3.2",
     "phpunit/phpunit": "^8.4"
   },

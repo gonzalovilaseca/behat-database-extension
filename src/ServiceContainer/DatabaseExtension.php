@@ -4,6 +4,7 @@ namespace Gvf\DatabaseExtension\ServiceContainer;
 
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
+use FriendsOfBehat\SymfonyExtension\ServiceContainer\SymfonyExtension;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -27,8 +28,8 @@ class DatabaseExtension implements ExtensionInterface
      */
     public function initialize(ExtensionManager $extensionManager)
     {
-        if ($extensionManager->getExtension('symfony2') === null) {
-            throw new \Exception('Symfony2Extension is needed to run Migrations extension!');
+        if ($extensionManager->getExtension('fob_symfony') === null) {
+            throw new \Exception('Friends of behat Symfony extension is needed to run Symfony Rest extension!');
         }
     }
 
@@ -39,14 +40,14 @@ class DatabaseExtension implements ExtensionInterface
     {
         $builder
             ->children()
-            ->scalarNode('entity_manager')
-            ->isRequired()
-            ->end()
-            ->scalarNode('db_schema_path')
-            ->end()
-            ->arrayNode('reset_autoincr')
-            ->scalarPrototype()->end()
-            ->end()
+                ->scalarNode('entity_manager')
+                    ->isRequired()
+                ->end()
+                ->scalarNode('db_schema_path')
+                ->end()
+                ->arrayNode('reset_autoincr')
+                    ->scalarPrototype()->end()
+                ->end()
             ->end()
         ;
     }
@@ -57,7 +58,7 @@ class DatabaseExtension implements ExtensionInterface
     public function load(ContainerBuilder $container, array $config)
     {
         $definition = new Definition(TablePurgerListener::class, [
-                new Reference('symfony2_extension.kernel'),
+                new Reference(SymfonyExtension::KERNEL_ID),
                 $config['entity_manager'],
             ]
         );
@@ -67,7 +68,7 @@ class DatabaseExtension implements ExtensionInterface
         if (isset($config['db_schema_path'])) {
 
             $definition = new Definition(DbLoaderListener::class, [
-                    new Reference('symfony2_extension.kernel'),
+                    new Reference(SymfonyExtension::KERNEL_ID),
                     $config['db_schema_path'],
                 ]
             );
@@ -76,7 +77,7 @@ class DatabaseExtension implements ExtensionInterface
         }
 
         $definition = new Definition(AutoIncrResetterListener::class, [
-                new Reference('symfony2_extension.kernel'),
+                new Reference(SymfonyExtension::KERNEL_ID),
                 $config['entity_manager'],
                 $config['reset_autoincr'],
             ]
