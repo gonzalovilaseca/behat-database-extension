@@ -4,7 +4,7 @@
   "type": "project",
   "license": "MIT",
   "require": {
-    "php": "^7.2",
+    "php": "^8.1",
     "behat/behat": "^3.5",
     "friends-of-behat/symfony-extension": "^2.1",
     "doctrine/doctrine-fixtures-bundle": "^3.2",
